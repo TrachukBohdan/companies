@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Company</title>
+</head>
+<body>
+   <h2>Information about company</h2>
+   <hr />
+     <table border=1>
+      	{% for d in data %}
+	      <tr>
+	      	<td>{{ d.id }}</td>
+	      	<td>{{ d.parent_id }}</td>
+	        <td><a href=/add/{{d.id}}>{{ d.name_company }}</a></td>
+	        <td><strong>{{ d.established_company }}</strong></td>
+	        <td><a href="/del/{{d.id}}">del </a></td>
+	        <td><a href="/edit/{{d.id}}">edit </a></td>
+	     </tr>
+    	{% endfor %}
+     </table> 
+   
+   <hr />
+   <form action='/add/{{cat_id}}' method="post">
+   		<input type="hidden" name="id" value="{{cat_id}}" />
+       {{ form.as_p }}  
+       {% csrf_token %}
+       <input type="submit" value="Add" />
+   </form>
+</body>
+</html>
