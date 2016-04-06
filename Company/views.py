@@ -36,19 +36,7 @@ def registrate(request, id=0):#функция принимает id
             print()
         company.save(); # сохранили в базу данных
 
-
-
-
-    
-            
-          
-
-
-
-
         return redirect('/'); # обновили страницу
-      
-    
 
     return render(
         request, r'Company/Company.html', # подключили html - форму
@@ -72,6 +60,8 @@ def tree(parent_id=0):
 
     companyList = [];
     
+    companyHtml = '';
+
     # list of cat with parent_id
     companies = Main_Company.objects.filter(parent_id = parent_id); 
   
@@ -85,28 +75,25 @@ def tree(parent_id=0):
             
         # subCompany have children
         if(subCompany.count() != 0):
+            companyHtml += '<li>'+ company.name_company +'<ul>' + tree(company.id) + '</ul></li>';
             companyList.append({
                 'name': company.name_company,
                 'companies': tree(company.id),
                 'id': company.id
             });
         else:
+            companyHtml += '<li>' + company.name_company + '</li>';
             companyList.append({
                 'name': company.name_company,
                 'companies': [],
                 'id': company.id
             });
 
-    return companyList;
+    return companyHtml;
 
 def tree_page(request, id):
-    companyList = tree();
-    print('-------------------------');
-
-    for company in companyList :
-        print()
-
-    return HttpResponse('tree');
+    html = tree();
+    return HttpResponse('<ul>' + html + '</ul>');
 
 def editCompany(request,id):
 
